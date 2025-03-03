@@ -9,32 +9,60 @@ public class logger {
 
 
     public static void main(String[] args) {
-        string test ="START logging started ";
-        Arraylist<String>logger= new ArrayList<String>();;
-    
-        Date d1 = new Date(); 
+        String test ="START logging started ";
+        String test2 ="ENCRYPT HELLO ";
 
-        System.out.println("current time "+d1);
-        reader(test);
+        ArrayList<String>log= new ArrayList<String>();
+        log.add(reader(test));
+        log.add(reader(test2));
+
+        System.out.println(log);
+        
+
+        
+        
+            }
+        
+        
+        
+        
+        public static String reader(String s){
+
+        	String action ="[";
+        	String rest =" ";
+            Date date = new Date(); 
+            String time= date.toString();
+            int firstblank=0;
+
+            for (int i =0;i<s.length();i++){
+            char ch = s.charAt(i);
+            
+            if (ch!=' '&& firstblank==0)
+            action+=ch;	
+            else if (firstblank==0) {
+            	firstblank++;
+            	action+=']';
+            }
+            
+            
+            if(firstblank==1)
+            rest+=ch;
+            
 
 
-    }
 
-
-
-
-    public String reader(String s){
-        string yo= s;
-
-
-        for (int i:s){
-            system.println(i);
         }
+        
+
+       
+        String fullstr="";
+        fullstr=time+action+rest;
+        //System.out.println(fullstr);
 
 
 
     
-        return yo;    
+        return fullstr;    
     }
     
 
