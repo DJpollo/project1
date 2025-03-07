@@ -24,7 +24,7 @@ public class logger {
                 //log.add(reader(test));
                 //log.add(reader(test2));
         
-                System.out.println(log+"print log");
+                System.out.println(log);
             } catch (IOException e) {
                 e.printStackTrace();
             }

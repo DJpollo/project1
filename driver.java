@@ -13,6 +13,9 @@ public class driver {
                 String input = scanner.nextLine();
                 proccCreator(input);
 
+            if (input=="password")
+            password();
+
         
         
                 //System.out.println(input);
@@ -20,6 +23,17 @@ public class driver {
         
         
         
+        public static void password()
+             {
+
+
+
+
+                    }
+
+
+
+
         
         
             public static void proccCreator(String sendData)
