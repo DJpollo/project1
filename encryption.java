@@ -1,7 +1,5 @@
 public class encryption {
 	
-	
-	
 	public static String myattempt(String s,String k,int chose) {
 		String alphabet ="abcdefghijklmnopkrstuvwxyz";
 		String input =s.toLowerCase();
@@ -40,17 +38,11 @@ public class encryption {
 				
 
 			finalString+=alphabet.charAt(finalnum);
-			
-			
-
+		
 		}
-		
-		
 		
 		return finalString;
 	}
-	
-	
 	
 	
     public static void main(String[] args) {
@@ -69,9 +61,5 @@ public class encryption {
         
     }
 }
-	
-	
-	
-	
 	
 	

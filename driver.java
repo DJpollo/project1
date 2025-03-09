@@ -13,6 +13,15 @@ public class driver {
                 String input = scanner.nextLine();
                 proccCreator(input);
 
+
+
+
+        System.out.println("--------------------------------------");
+        System.out.println("              MENU                     ");
+
+        System.out.println("--------------------------------------");
+
+
             if (input=="password")
             password();
 
