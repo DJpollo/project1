@@ -10,38 +10,29 @@ public class driver {
         
         
         
-                String input = scanner.nextLine();
+                String input = "";
+
+                while (true){
+                    input = scanner.nextLine();
                 proccCreator(input);
+                }
 
 
 
 
-        System.out.println("--------------------------------------");
-        System.out.println("              MENU                     ");
-
-        System.out.println("--------------------------------------");
-
-
-            if (input=="password")
-            password();
-
-        
         
                 //System.out.println(input);
             }
         
         
         
-        public static void password()
-             {
 
 
 
 
-                    }
 
 
-
+            
 
         
         
