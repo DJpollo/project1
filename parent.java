@@ -1,37 +1,78 @@
+import java.util.Scanner;
 import java.io.*;
 
-public class parent {
+public class parent { 
     public static void main(String[] args) {
-        try {
-            ProcessBuilder child = new ProcessBuilder("java", "child");
-            Process child1Process = child.start();
+    Scanner scanner = new Scanner(System.in);
 
-            InputStream childinput = child1Process.getInputStream();
-            OutputStream childoutput = child1Process.getOutputStream();
 
-            // Send data 
-            PrintWriter writer1 = new PrintWriter(childoutput, true);
-            writer1.println("Hello Child ");
-            writer1.println("STOP");
+    // Start 
+    Process loggerProcess = startProcess();
 
-            
+    
+    PrintWriter writer = new PrintWriter(loggerProcess.getOutputStream(), true);
+    Scanner processScanner = new Scanner(loggerProcess.getInputStream());
 
-            // Read data 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(childinput));
-            String input;
-            while ((input = reader.readLine()) != null) {
-                System.out.println("Parent received " + input);
-                
-                if (input.equals("STOP")) 
-                break;
-                
-            }
+    // Thread 
+    Thread outputThread = new Thread(() -> readChild(processScanner));
+    outputThread.start();
 
-            // Wait 
-            child1Process.waitFor();
+    
 
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+
+
+
+
+
+    while (true) {
+        String input = scanner.nextLine();  
+        if ("END".equals(input)) {
+            writer.println(input); 
+            writer.flush();
+            break; // Exit loop
         }
+
+        writer.println(input); // Send input to logger 
+        writer.flush();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    try {
+        loggerProcess.waitFor();
+        outputThread.join();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+}
+
+
+
+public static Process startProcess() {
+    try {
+        ProcessBuilder loggerProcessBuilder = new ProcessBuilder("java", "logger");
+        Process loggerProcess = loggerProcessBuilder.start();
+        return loggerProcess;
+    } catch (IOException e) {
+        e.printStackTrace();
+        return null;
     }
 }
+
+private static void readChild(Scanner processScanner) {
+    while (processScanner.hasNextLine()) {
+        System.out.println("logger: " + processScanner.nextLine());
+    }
+    }
+}
+
+

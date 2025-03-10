@@ -1,88 +1,77 @@
 import java.util.Scanner;
 import java.io.*;
 
-
-
-
 public class driver {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        
-        
-                String input = "";
 
-                while (true){
-                    input = scanner.nextLine();
-                proccCreator(input);
-                }
-
-
-
+        // Start 
+        Process loggerProcess = startProcess();
 
         
-                //System.out.println(input);
+        PrintWriter writer = new PrintWriter(loggerProcess.getOutputStream(), true);
+        Scanner processScanner = new Scanner(loggerProcess.getInputStream());
+
+       
+
+
+
+        Thread outputThread = new Thread(() -> readChild(processScanner));
+        outputThread.start();
+
+
+
+
+        while (true) {
+            String input = scanner.nextLine();  
+            if ("END".equals(input)) {
+                writer.println(input); 
+                writer.flush();
+                break; // Exit loop
             }
-        
-        
-        
 
-
-
+            writer.println(input); // Send input to logger 
+            writer.flush();
 
 
 
             
+        }
 
-        
-        
-            public static void proccCreator(String sendData)
-    {
+
+
+
+
+
+
+
+
+
+
         try {
-            ProcessBuilder logger = new ProcessBuilder("java", "logger");
-            Process loggerProcess = logger.start();
-
-            InputStream loggerInput = loggerProcess.getInputStream();
-            OutputStream loggerOutput = loggerProcess.getOutputStream();
-
-            // Send data 
-            PrintWriter writer = new PrintWriter(loggerOutput, true);
-            writer.println(sendData);
-            writer.println("STOP");
-
-            
-
-             // Read data 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(loggerInput));
-            String input;
-            while ((input = reader.readLine()) != null) {
-               System.out.println(" " + input);
-                
-                if (input.equals("STOP")) 
-                break;
-                
-            }
-                
-            // Wait 
             loggerProcess.waitFor();
+            outputThread.join();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    } 
 
+    }
 
+    public static Process startProcess() {
+        try {
+            ProcessBuilder loggerProcessBuilder = new ProcessBuilder("java", "logger");
+            Process loggerProcess = loggerProcessBuilder.start();
+            return loggerProcess;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    private static void readChild(Scanner processScanner) {
+        while (processScanner.hasNextLine()) {
+            System.out.println("logger: " + processScanner.nextLine());
+        }
+    }
 }
