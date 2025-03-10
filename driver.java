@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.logging.Logger;
 import java.io.*;
 
 public class driver {
@@ -33,7 +34,9 @@ public class driver {
         while (true) {
            
 
-            
+            System.out.println("show history "+logger.getLog());
+            System.out.println("show history "+logger.getLog());
+            System.out.println("show history "+logger.getLog());
 
             System.out.println("--------------------------------------");
             System.out.println("              MENU                     ");
@@ -68,12 +71,14 @@ public class driver {
             encryptorwriter.println(input); // Send input to encryptor 
             encryptorwriter.flush();
             
+                  System.out.println();
+                System.out.println();
 
 
 
 
             if(input.equals("password"))
-                System.out.println("password");
+                password();
             else if (input.equals("encrypt"))
                 System.out.println("encrypt");
             else if (input.equals("decrypt"))
@@ -115,6 +120,16 @@ public class driver {
         }
 
     }
+
+
+    public static void password()
+    {   System.out.println("show history "+logger.log);
+
+    }
+
+
+
+
 
     public static Process startProcess() {
         try {

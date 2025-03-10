@@ -37,7 +37,9 @@ public class logger {
         }
     
 
-
+        public static ArrayList<String> getLog() {
+            return log;
+        }
 
                 
                 
