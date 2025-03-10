@@ -7,10 +7,15 @@ public class driver {
 
         // Start 
         Process loggerProcess = startProcess();
+        Process encryptorProcess= startProcessencryptor();
 
         
         PrintWriter writer = new PrintWriter(loggerProcess.getOutputStream(), true);
         Scanner processScanner = new Scanner(loggerProcess.getInputStream());
+        PrintWriter encryptorwriter = new PrintWriter(encryptorProcess.getOutputStream(), true);
+        Scanner encryptorScanner = new Scanner(encryptorProcess.getInputStream());
+
+
 
        
 
@@ -18,6 +23,9 @@ public class driver {
 
         Thread outputThread = new Thread(() -> readChild(processScanner));
         outputThread.start();
+
+        Thread outputThreadencryptor = new Thread(() -> readChildencryptor(encryptorScanner));
+        outputThreadencryptor.start();
 
 
 
@@ -48,6 +56,8 @@ public class driver {
             if (input.equals("quit"))
             {
               loggerProcess.destroy();
+              encryptorProcess.destroy();
+
                break; // Exit loop
                
             }
@@ -55,6 +65,8 @@ public class driver {
 
             writer.println(input); // Send input to logger 
             writer.flush();
+            encryptorwriter.println(input); // Send input to encryptor 
+            encryptorwriter.flush();
             
 
 
@@ -93,6 +105,10 @@ public class driver {
         try {
             loggerProcess.waitFor();
             outputThread.join();
+            encryptorProcess.waitFor();
+            outputThreadencryptor.join();
+
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -111,9 +127,27 @@ public class driver {
         }
     }
 
+
+    public static Process startProcessencryptor() {
+        try {
+            ProcessBuilder encryptionProcessBuilder = new ProcessBuilder("java", "encryption");
+            Process encryptionProcess = encryptionProcessBuilder.start();
+            return encryptionProcess;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private static void readChild(Scanner processScanner) {
         while (processScanner.hasNextLine()) {
             System.out.println("logger: " + processScanner.nextLine());
+        }
+    }
+
+    private static void readChildencryptor(Scanner encryptorScanner) {
+        while (encryptorScanner.hasNextLine()) {
+            System.out.println("logger: " + encryptorScanner.nextLine());
         }
     }
 }
