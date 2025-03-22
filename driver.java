@@ -3,6 +3,8 @@ import java.util.logging.Logger;
 import java.io.*;
 
 public class driver {
+
+    static String s="";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -24,6 +26,7 @@ public class driver {
 
         Thread outputThread = new Thread(() -> readChild(processScanner));
         outputThread.start();
+        
 
         Thread outputThreadencryptor = new Thread(() -> readChildencryptor(encryptorScanner));
         outputThreadencryptor.start();
@@ -33,11 +36,7 @@ public class driver {
 
         while (true) {
            
-
-            System.out.println("show history "+logger.getLog());
-            System.out.println("show history "+logger.getLog());
-            System.out.println("show history "+logger.getLog());
-
+           
             System.out.println("--------------------------------------");
             System.out.println("              MENU                     ");
             System.out.println("--------------------------------------");
@@ -47,13 +46,17 @@ public class driver {
             System.out.println("history - show history ");
             System.out.println("quit - end program");
             System.out.println("--------------------------------------");
-            System.out.print("Enter command- ");
+            System.out.println("Enter command- ");
+            
+
+
+
 
 
             String input = scanner.nextLine();  
 
 
-            
+
             
             
             if (input.equals("quit"))
@@ -64,6 +67,16 @@ public class driver {
                break; // Exit loop
                
             }
+            if (input.equals("history")) {
+                s = readLogFromFile();
+                System.out.println(s);
+            }
+
+
+
+           
+
+
            
 
             writer.println(input); // Send input to logger 
@@ -71,12 +84,15 @@ public class driver {
             encryptorwriter.println(input); // Send input to encryptor 
             encryptorwriter.flush();
             
-                  System.out.println();
-                System.out.println();
+                 
 
 
 
 
+    
+
+
+/* 
             if(input.equals("password"))
                 password();
             else if (input.equals("encrypt"))
@@ -88,7 +104,7 @@ public class driver {
             else 
                 System.out.println("enter valid input");
    
-            
+   */         
 
 
 
@@ -122,10 +138,32 @@ public class driver {
     }
 
 
-    public static void password()
-    {   System.out.println("show history "+logger.log);
-
+    
+    public static String readLogFromFile() {
+        String history = "";  
+    
+        try (BufferedReader reader = new BufferedReader(new FileReader("log.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {  
+                history += line + "\n";  
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    
+        return history;  
     }
+    
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -155,14 +193,18 @@ public class driver {
     }
 
     private static void readChild(Scanner processScanner) {
+       
         while (processScanner.hasNextLine()) {
-            System.out.println("logger: " + processScanner.nextLine());
+           //System.out.println(" " + processScanner.nextLine());
+            s=processScanner.nextLine();
+
+           
         }
     }
 
     private static void readChildencryptor(Scanner encryptorScanner) {
         while (encryptorScanner.hasNextLine()) {
-            System.out.println("logger: " + encryptorScanner.nextLine());
+            System.out.println(" " + encryptorScanner.nextLine());
         }
     }
 }

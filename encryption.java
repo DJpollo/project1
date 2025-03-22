@@ -50,10 +50,25 @@ public class encryption {
 		
 		
 			public static void encryptionProcc() {
+
+				String paskey=""; 
+
+
+
+
+
 				Scanner scanner = new Scanner(System.in);
 				while (scanner.hasNextLine()) {
 					String line = scanner.nextLine();
 					holder=line;
+
+
+					if ("encrypt".equals(line)&&paskey.equals("")){
+						System.out.println("no password is set. Set pasword first to continue");
+						System.out.flush(); 
+
+
+					}
                 
                 if ("END".equals(line)) {
                     break; 
@@ -66,14 +81,14 @@ public class encryption {
 				int decrypt=1;
 				
 			   String test1= myattempt(plaintext,key,encript);
-			   System.out.println(test1+"  test");
+			  // System.out.println(test1+"  test");
 			   System.out.println();
 		
 			   String test2=myattempt(test1,key,decrypt);
-			   System.out.println(test2+"  test222");
+			   //System.out.println(test2+"  test222");
 
 
-                System.out.println("encryption see: "+line);
+                //System.out.println("encryption see: "+line);
                 System.out.flush(); 
             }
 		}
@@ -96,11 +111,11 @@ public class encryption {
         int decrypt=1;
         
        String test1= myattempt(plaintext,key,encript);
-       System.out.println(test1+"  test");
+       //System.out.println(test1+"  test");
        System.out.println();
 
        String test2=myattempt(test1,key,decrypt);
-       System.out.println(test2+"  test222");
+       //System.out.println(test2+"  test222");
 
         
     }

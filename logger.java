@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ public class logger {
 
 
     public static void main(String[] args) {
+      
         
         loggerProcc();
 
@@ -30,8 +32,17 @@ public class logger {
                 if ("END".equals(line)) {
                     break; 
                 }
-                log.add(reader(line));
-                System.out.println("Logged: " + log);
+
+                if (!"history".equals(line)) {
+                    log.add(reader(line));
+                    saveLogToFile();
+                }
+
+
+
+
+                //  log.add(reader(line));
+               // System.out.println(" " + log);
                 System.out.flush(); 
             }
         }
@@ -41,6 +52,21 @@ public class logger {
             return log;
         }
 
+
+
+
+
+        public static void saveLogToFile() {//saves to file
+    
+            try (PrintWriter save = new PrintWriter(new FileWriter("log.txt"))) {
+
+        for (String entry : log) {
+            save.println(entry);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
                 
                 
      public static String reader(String s){
