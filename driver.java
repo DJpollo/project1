@@ -74,15 +74,64 @@ public class driver {
 
 
 
+
+
+            if (input.equals("encrypt")) {
+
+
+                
+
+
+
+                System.out.println("encrypting -");
+                encryptorwriter.println("encrypt"); // Send input to encryptor 
+                input = scanner.nextLine();
+
+
+                encryptorwriter.println(input);
+
+                writer.println("encrypt"+" "+input); // Send input to logger 
+                
+                encryptorwriter.flush();
+                writer.flush();
+
+               
+            }
+
+            if (input.equals("password")) {
+                System.out.println("set paskey -");
+
+                encryptorwriter.println("password"); // Send input to encryptor 
+                input = scanner.nextLine();
+                encryptorwriter.println(input);
+
+
+                encryptorwriter.flush();
+            }
+
+
+
+            if (input.equals("decrypt")) {
+                System.out.println("decrypt -");
+                input = scanner.nextLine();
+                encryptorwriter.println(input); // Send input to encryptor 
+                encryptorwriter.flush();
+            }
+
+            
+
+
+           
+
+
+
            
 
 
            
 
-            writer.println(input); // Send input to logger 
-            writer.flush();
-            encryptorwriter.println(input); // Send input to encryptor 
-            encryptorwriter.flush();
+           
+            
             
                  
 
