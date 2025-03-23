@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.io.*;
@@ -187,11 +188,14 @@ public class driver {
     
     public static String readLogFromFile() {
         String history = "";  
+        choices=new ArrayList<String>();
     
         try (BufferedReader reader = new BufferedReader(new FileReader("log.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {  
                 history += line + "\n";  
+                getchoice(line);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -200,8 +204,36 @@ public class driver {
         return history;  
     }
     
+    static ArrayList<String> choices= new ArrayList<String>();
+    public static ArrayList<String> getchoice(String s)
+        {
+                String holder="";
+                int goAhead=0;
+                for (int i =0;i<s.length();i++){
+                    char ch = s.charAt(i);
+                    if (ch==']'){
+                    goAhead++;
+                    continue;
+                    }
+                    if(goAhead>0)
+                    holder+=ch;
+                    
+    
+                
+                }
+                
+
+               // System.out.println(holder+" this is holder string");
+                choices.add(holder);
+                System.out.println(choices);
 
 
+    
+    
+                return choices;
+
+
+    }       
 
 
 
