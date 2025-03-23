@@ -126,9 +126,17 @@ public class driver {
                 encryptorwriter.println(input);
 
                 writer.println("encrypt"+" "+input); // Send input to logger 
+
+
+                //////////////////////////////////////////////
+                
+////////////////////////////////////////////////////////
                 
                 encryptorwriter.flush();
                 writer.flush();
+
+                
+
                 }
 
                
@@ -316,10 +324,14 @@ public class driver {
            
         }
     }
+    private static String encryptionOutput = ""; // Shared variable to store encryption output
 
     private static void readChildencryptor(Scanner encryptorScanner) {
         while (encryptorScanner.hasNextLine()) {
-            System.out.println(" " + encryptorScanner.nextLine());
+            encryptionOutput = encryptorScanner.nextLine(); // Store the output instead of just printing
+            System.out.println(" yoyoy" + encryptionOutput); // Still print if needed
+           // writer.println(encryptionOutput);
         }
     }
+    
 }

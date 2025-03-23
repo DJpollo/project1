@@ -77,7 +77,7 @@ public class encryption {
 				if ("encrypt".equals(line)&&!paskey.equals("")){
 					line = scanner.nextLine();
 					String test1= myattempt(line,paskey,0);
-			  		System.out.println(test1+"  encrypt");
+			  		System.out.println("[Encrypt Sucess] " + test1);
 					System.out.flush(); 
 				}
 
@@ -85,7 +85,7 @@ public class encryption {
 				if ("decrypt".equals(line)&&!paskey.equals("")){
 					line = scanner.nextLine();
 					String test1= myattempt(line,paskey,1);
-			  		System.out.println(test1+"  decrypt");
+					System.out.println("[Decrypt Sucess] " + test1);
 					System.out.flush(); 
 				}
 
