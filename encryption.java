@@ -76,14 +76,17 @@ public class encryption {
 
 				if ("encrypt".equals(line)&&!paskey.equals("")){
 					line = scanner.nextLine();
-					String test1= myattempt(line,"key",0);
+					String test1= myattempt(line,paskey,0);
 			  		System.out.println(test1+"  encrypt");
 					System.out.flush(); 
 				}
-				else if ("encrypt".equals(line)){
-					System.out.println("set paskey first to decrypt");
-					System.out.flush(); 
 
+				
+				if ("decrypt".equals(line)&&!paskey.equals("")){
+					line = scanner.nextLine();
+					String test1= myattempt(line,paskey,1);
+			  		System.out.println(test1+"  decrypt");
+					System.out.flush(); 
 				}
 
 
@@ -95,21 +98,7 @@ public class encryption {
 
 
 
-				//System.out.println(paskey+"paskey");
-				String plaintext = holder;
-				String key = "KEY";
-				int encript=0;
-				int decrypt=1;
 				
-			   String test1= myattempt(plaintext,key,encript);
-			  //System.out.println(test1+"  encrypt");
-			   System.out.println();
-		
-			   String test2=myattempt(test1,key,decrypt);
-			   //System.out.println(test2+"  test222");
-
-
-                //System.out.println("encryption see: "+line);
                 System.out.flush(); 
             }
 		}

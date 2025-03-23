@@ -32,7 +32,7 @@ public class driver {
         outputThreadencryptor.start();
 
 
-
+        int pass=0;
 
         while (true) {
            
@@ -61,10 +61,12 @@ public class driver {
             
             if (input.equals("quit"))
             {
-              loggerProcess.destroy();
-              encryptorProcess.destroy();
-
-               break; // Exit loop
+                System.out.println("going to quit");
+    
+                writer.println("quit");  // Send to logger process
+                writer.flush();
+            
+                break; // Exit loop
                
             }
             if (input.equals("history")) {
@@ -76,11 +78,7 @@ public class driver {
 
 
 
-            if (input.equals("encrypt")) {
-
-
-                
-
+            if (input.equals("encrypt")&&pass>0) {
 
 
                 System.out.println("encrypting -");
@@ -97,8 +95,13 @@ public class driver {
 
                
             }
+            else if(pass==0&&input.equals("encrypt"))
+            System.out.println("set password first");
+
+
 
             if (input.equals("password")) {
+                pass++;
                 System.out.println("set paskey -");
 
                 encryptorwriter.println("password"); // Send input to encryptor 
@@ -111,12 +114,20 @@ public class driver {
 
 
 
-            if (input.equals("decrypt")) {
+            if (input.equals("decrypt")&&pass>0) {
                 System.out.println("decrypt -");
+                encryptorwriter.println("decrypt"); // Send input to encryptor 
+
                 input = scanner.nextLine();
                 encryptorwriter.println(input); // Send input to encryptor 
+
+                writer.println("decrypt"+" "+input); // Send input to logger 
+                writer.flush();
+
                 encryptorwriter.flush();
             }
+            else if(pass==0&&input.equals("decrypt"))
+            System.out.println("set password first");
 
             
 
@@ -141,21 +152,6 @@ public class driver {
     
 
 
-/* 
-            if(input.equals("password"))
-                password();
-            else if (input.equals("encrypt"))
-                System.out.println("encrypt");
-            else if (input.equals("decrypt"))
-                System.out.println("decrypt");
-            else if (input.equals("history"))
-                System.out.println("history");
-            else 
-                System.out.println("enter valid input");
-   
-   */         
-
-
 
 
 
@@ -165,7 +161,8 @@ public class driver {
 
 
 
-
+        loggerProcess.destroy();
+        encryptorProcess.destroy();
 
 
 

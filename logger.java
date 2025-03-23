@@ -25,17 +25,21 @@ public class logger {
 
 
         public static void loggerProcc() {
+            boolean del=false;
             Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 
-                if ("END".equals(line)) {
-                    break; 
+                System.out.println("Received in logger: " + line);
+                
+                if ("quit".equals(line)) {
+                    saveLogToFile(true);
+                    System.exit(0);  // Force exit
                 }
 
                 if (!"history".equals(line)) {
                     log.add(reader(line));
-                    saveLogToFile();
+                    saveLogToFile(del);
                 }
 
 
@@ -55,18 +59,21 @@ public class logger {
 
 
 
-
-        public static void saveLogToFile() {//saves to file
-    
+        public static void saveLogToFile(boolean del) {
             try (PrintWriter save = new PrintWriter(new FileWriter("log.txt"))) {
-
-        for (String entry : log) {
-            save.println(entry);
+                if (del) {
+                    save.close();  // Clears the file properly
+                    return;
+                }
+        
+                for (String entry : log) {
+                    save.println(entry);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
+        
                 
                 
      public static String reader(String s){
