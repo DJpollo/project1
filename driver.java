@@ -70,7 +70,8 @@ public class driver {
                 break; // Exit loop
                
             }
-            if (input.equals("history")) {
+
+            if (input.equals("history")) {//just shows the logger (history)
                 s = readLogFromFile();
                 System.out.println(s);
             }
@@ -80,6 +81,41 @@ public class driver {
 
 
             if (input.equals("encrypt")&&pass>0) {
+
+                System.out.println("do you wish to use from the history? yes/no");
+                input = scanner.nextLine();
+                if(input.equals("yes")){
+                    readLogFromFile();
+                    if(choices.isEmpty()){
+                    System.out.println("List is empty cant get from history");
+                    }
+                    else
+                    {
+
+                System.out.println(choices+ " choose from the list");
+                input = scanner.nextLine();
+                int num = Integer.parseInt(input);
+                String usersChoice=choices.get(num);
+                encryptorwriter.println("encrypt"); // Send input to encryptor 
+
+
+                encryptorwriter.println(usersChoice);
+
+                //writer.println("encrypt"+" "+usersChoice); // Send input to logger 
+                
+                encryptorwriter.flush();
+                //writer.flush();
+
+
+                    }
+
+
+
+                }
+                else{
+
+
+
 
 
                 System.out.println("encrypting -");
@@ -93,6 +129,7 @@ public class driver {
                 
                 encryptorwriter.flush();
                 writer.flush();
+                }
 
                
             }
@@ -225,7 +262,7 @@ public class driver {
 
                // System.out.println(holder+" this is holder string");
                 choices.add(holder);
-                System.out.println(choices);
+                //System.out.println(choices);
 
 
     
