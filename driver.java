@@ -29,7 +29,7 @@ public class driver {
         outputThread.start();
         
 
-        Thread outputThreadencryptor = new Thread(() -> readChildencryptor(encryptorScanner));
+        Thread outputThreadencryptor = new Thread(() -> readChildencryptor(encryptorScanner,writer));
         outputThreadencryptor.start();
 
 
@@ -326,11 +326,11 @@ public class driver {
     }
     private static String encryptionOutput = ""; // Shared variable to store encryption output
 
-    private static void readChildencryptor(Scanner encryptorScanner) {
+    private static void readChildencryptor(Scanner encryptorScanner, PrintWriter writer) {
         while (encryptorScanner.hasNextLine()) {
             encryptionOutput = encryptorScanner.nextLine(); // Store the output instead of just printing
             System.out.println(" yoyoy" + encryptionOutput); // Still print if needed
-           // writer.println(encryptionOutput);
+            writer.println(encryptionOutput);
         }
     }
     
