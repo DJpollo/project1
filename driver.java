@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.io.*;
@@ -9,26 +10,18 @@ public class driver {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Start 
         Process loggerProcess = startProcess();
         Process encryptorProcess= startProcessencryptor();
 
-        
         PrintWriter writer = new PrintWriter(loggerProcess.getOutputStream(), true);
         Scanner processScanner = new Scanner(loggerProcess.getInputStream());
         PrintWriter encryptorwriter = new PrintWriter(encryptorProcess.getOutputStream(), true);
         Scanner encryptorScanner = new Scanner(encryptorProcess.getInputStream());
 
 
-
-       
-
-
-
         Thread outputThread = new Thread(() -> readChild(processScanner));
         outputThread.start();
         
-
         Thread outputThreadencryptor = new Thread(() -> readChildencryptor(encryptorScanner,writer));
         outputThreadencryptor.start();
 
@@ -51,24 +44,20 @@ public class driver {
             
 
 
-
-
-
             String input = scanner.nextLine();  
 
 
+            if (!input.matches("[a-zA-Z ]+")) { 
+                System.out.println("Invalid input!");
+                continue;
+            }
 
-            
-            
             if (input.equals("quit"))
             {
                 System.out.println("going to quit");
-    
                 writer.println("quit");  // Send to logger process
                 writer.flush();
-            
-                break; // Exit loop
-               
+                break; // Exit loop  
             }
 
             if (input.equals("history")) {//just shows the logger (history)
@@ -77,72 +66,53 @@ public class driver {
             }
 
 
-
-
-
             if (input.equals("encrypt")&&pass>0) {
 
                 System.out.println("do you wish to use from the history? yes/no");
                 input = scanner.nextLine();
+
                 if(input.equals("yes")){
                     readLogFromFile();
                     if(choices.isEmpty()){
                     System.out.println("List is empty cant get from history");
                     }
-                    else
-                    {
+                        else
+                        {
 
-                System.out.println(choices+ " choose from the list");
-                input = scanner.nextLine();
-                int num = Integer.parseInt(input);
-                String usersChoice=choices.get(num);
-                encryptorwriter.println("encrypt"); // Send input to encryptor 
-
-
-                encryptorwriter.println(usersChoice);
-
-                //writer.println("encrypt"+" "+usersChoice); // Send input to logger 
-                
-                encryptorwriter.flush();
-                //writer.flush();
+                            System.out.println(choices+ " choose from the list");
+                            input = scanner.nextLine();
+                            int num = Integer.parseInt(input);
+                            String usersChoice=choices.get(num);
+                            encryptorwriter.println("encrypt"); // Send input to encryptor 
 
 
-                    }
+                            encryptorwriter.println(usersChoice);
+
+                            writer.println("encrypt"+" "+usersChoice); // Send input to logger 
+                            
+                            encryptorwriter.flush();
 
 
-
+                        }
                 }
                 else{
 
+                    System.out.println("encrypting -");
+                    encryptorwriter.println("encrypt"); // Send input to encryptor 
+                    input = scanner.nextLine();
 
+                    encryptorwriter.println(input);
+                    writer.println("encrypt"+" "+input); // Send input to logger 
 
+                    encryptorwriter.flush();
+                    writer.flush();
 
-
-                System.out.println("encrypting -");
-                encryptorwriter.println("encrypt"); // Send input to encryptor 
-                input = scanner.nextLine();
-
-
-                encryptorwriter.println(input);
-
-                writer.println("encrypt"+" "+input); // Send input to logger 
-
-
-                //////////////////////////////////////////////
-                
-////////////////////////////////////////////////////////
-                
-                encryptorwriter.flush();
-                writer.flush();
-
-                
 
                 }
 
-               
             }
-            else if(pass==0&&input.equals("encrypt"))
-            System.out.println("set password first");
+                else if(pass==0&&input.equals("encrypt"))
+                System.out.println("set password first");
 
 
 
@@ -154,65 +124,67 @@ public class driver {
                 input = scanner.nextLine();
                 encryptorwriter.println(input);
 
-
                 encryptorwriter.flush();
             }
 
 
 
             if (input.equals("decrypt")&&pass>0) {
-                System.out.println("decrypt -");
-                encryptorwriter.println("decrypt"); // Send input to encryptor 
 
+                System.out.println("do you wish to use from the history? yes/no");
                 input = scanner.nextLine();
-                encryptorwriter.println(input); // Send input to encryptor 
+                if(input.equals("yes")){
+                    readLogFromFile();
+                    if(choices.isEmpty()){
+                    System.out.println("List is empty cant get from history");
+                    }
+                        else
+                        {
 
-                writer.println("decrypt"+" "+input); // Send input to logger 
-                writer.flush();
+                            System.out.println(choices+ " choose from the list");
+                            input = scanner.nextLine();
+                            int num = Integer.parseInt(input);
+                            String usersChoice=choices.get(num);
+                            encryptorwriter.println("decrypt"); // Send input to encryptor 
 
-                encryptorwriter.flush();
+
+                            encryptorwriter.println(usersChoice);
+
+                             writer.println("decrypt"+" "+usersChoice); // Send input to logger 
+                            
+                            encryptorwriter.flush();
+
+                    }
+
+                }
+                else{
+
+                        System.out.println("decrypting -");
+                        encryptorwriter.println("decrypt"); // Send input to encryptor 
+                        input = scanner.nextLine();
+
+
+                        encryptorwriter.println(input);
+
+                        writer.println("decrypt"+" "+input); // Send input to logger 
+
+
+                        
+                        encryptorwriter.flush();
+                        writer.flush();
+
+                }
+
+               
             }
             else if(pass==0&&input.equals("decrypt"))
             System.out.println("set password first");
-
-            
-
-
-           
-
-
-
-           
-
-
-           
-
-           
-            
-            
-                 
-
-
-
-
-    
-
-
-
-
-
-            
-        }
-
-
+   
+        }//end of while loop
 
 
         loggerProcess.destroy();
         encryptorProcess.destroy();
-
-
-
-
 
 
         try {
@@ -262,32 +234,16 @@ public class driver {
                     }
                     if(goAhead>0)
                     holder+=ch;
-                    
-    
-                
+   
                 }
-                
-
-               // System.out.println(holder+" this is holder string");
+            
                 choices.add(holder);
-                //System.out.println(choices);
+                choices = new ArrayList<>(new LinkedHashSet<>(choices));
 
-
-    
-    
                 return choices;
 
 
     }       
-
-
-
-
-
-
-
-
-
 
 
 
@@ -318,18 +274,16 @@ public class driver {
     private static void readChild(Scanner processScanner) {
        
         while (processScanner.hasNextLine()) {
-           //System.out.println(" " + processScanner.nextLine());
             s=processScanner.nextLine();
 
            
         }
     }
-    private static String encryptionOutput = ""; // Shared variable to store encryption output
+    private static String encryptionOutput = ""; 
 
     private static void readChildencryptor(Scanner encryptorScanner, PrintWriter writer) {
         while (encryptorScanner.hasNextLine()) {
-            encryptionOutput = encryptorScanner.nextLine(); // Store the output instead of just printing
-            System.out.println(" yoyoy" + encryptionOutput); // Still print if needed
+            encryptionOutput = encryptorScanner.nextLine(); 
             writer.println(encryptionOutput);
         }
     }

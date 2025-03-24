@@ -11,16 +11,9 @@ public class logger {
     static ArrayList<String>log= new ArrayList<String>();
 
 
-
-
-
     public static void main(String[] args) {
-      
-        
         loggerProcc();
-
-           
-                    }
+            }
 
 
 
@@ -30,7 +23,6 @@ public class logger {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 
-                System.out.println("Received in logger: " + line);
                 
                 if ("quit".equals(line)) {
                     saveLogToFile(true);
@@ -42,11 +34,6 @@ public class logger {
                     saveLogToFile(del);
                 }
 
-
-
-
-                //  log.add(reader(line));
-               // System.out.println(" " + log);
                 System.out.flush(); 
             }
         }
@@ -58,7 +45,7 @@ public class logger {
         public static void saveLogToFile(boolean del) {
             try (PrintWriter save = new PrintWriter(new FileWriter("log.txt"))) {
                 if (del) {
-                    save.close();  // Clears the file properly
+                    save.close();  
                     return;
                 }
         
@@ -95,45 +82,18 @@ public class logger {
             rest+=ch;
             
 
-
-
         }
         
 
         
         String fullstr="";
         fullstr=time+action+rest;
-        //System.out.println(fullstr);
-
-
-
     
         return fullstr;    
     }
 
-
-        
-        
-        
+    
 
 }
-
-
-
-
-            
-    
-    
-    
-    
-    
-
-
-
-
-
-
-    
-
 
 

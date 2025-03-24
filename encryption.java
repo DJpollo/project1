@@ -39,7 +39,6 @@ public class encryption {
 				else if (chose==1)
 					 finalnum=((inputLoc - keyLoc) % 26 + 26) % 26;//decrypt
 	
-					
 	
 				finalString+=alphabet.charAt(finalnum);
 			
@@ -49,13 +48,9 @@ public class encryption {
 		}
 		
 		
-			public static void encryptionProcc() {
+	public static void encryptionProcc() {
 
 				String paskey=""; 
-
-
-
-
 
 				Scanner scanner = new Scanner(System.in);
 				while (scanner.hasNextLine()) {
@@ -63,21 +58,18 @@ public class encryption {
 					holder=line;
 
 
-
-
-
-					if("password".equals(line)){
-						line = scanner.nextLine();
-						paskey=line;
-						System.out.flush(); 
-					}
+				if("password".equals(line)){
+					line = scanner.nextLine();
+					paskey=line;
+					System.out.flush(); 
+				}
 
 
 
 				if ("encrypt".equals(line)&&!paskey.equals("")){
 					line = scanner.nextLine();
 					String test1= myattempt(line,paskey,0);
-			  		System.out.println("[Encrypt Sucess] " + test1);
+			  		System.out.println("Encrypt=Sucess " + test1);
 					System.out.flush(); 
 				}
 
@@ -85,48 +77,18 @@ public class encryption {
 				if ("decrypt".equals(line)&&!paskey.equals("")){
 					line = scanner.nextLine();
 					String test1= myattempt(line,paskey,1);
-					System.out.println("[Decrypt Sucess] " + test1);
+					System.out.println("Decrypt=Sucess " + test1);
 					System.out.flush(); 
 				}
-
-
-
-
-                if ("END".equals(line)) {
-                    break; 
-                }
-
-
-
-				
                 System.out.flush(); 
             }
 		}
 
 
 
-
-
-
-
-
     public static void main(String[] args) {
 
 		encryptionProcc();
-
-
-        String plaintext = holder;
-        String key = "KEY";
-        int encript=0;
-        int decrypt=1;
-        
-       String test1= myattempt(plaintext,key,encript);
-       //System.out.println(test1+"  test");
-       System.out.println();
-
-       String test2=myattempt(test1,key,decrypt);
-       //System.out.println(test2+"  test222");
-
         
     }
 }
