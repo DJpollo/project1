@@ -14,7 +14,7 @@ public class driver {
         Process encryptorProcess= startProcessencryptor();
 
         PrintWriter writer = new PrintWriter(loggerProcess.getOutputStream(), true);
-        Scanner processScanner = new Scanner(loggerProcess.getInputStream());
+        Scanner processScanner = new Scanner(loggerProcess.getInputStream());                                       //everything done to comunicate to my other java files done once here
         PrintWriter encryptorwriter = new PrintWriter(encryptorProcess.getOutputStream(), true);
         Scanner encryptorScanner = new Scanner(encryptorProcess.getInputStream());
 
@@ -26,9 +26,9 @@ public class driver {
         outputThreadencryptor.start();
 
 
-        int pass=0;
+        int pass=0;//counter to check if password has been set or not
 
-        while (true) {
+        while (true) {//main loop
            
            
             System.out.println("--------------------------------------");
@@ -47,12 +47,12 @@ public class driver {
             String input = scanner.nextLine();  
 
 
-            if (!input.matches("[a-zA-Z ]+")) { 
+            if (!input.matches("[a-zA-Z ]+")) { //simple check to see if any numbers are in users input if so continue
                 System.out.println("Invalid input!");
                 continue;
             }
 
-            if (input.equals("quit"))
+            else if (input.equals("quit"))//this ends the main loop
             {
                 System.out.println("going to quit");
                 writer.println("quit");  // Send to logger process
@@ -60,19 +60,19 @@ public class driver {
                 break; // Exit loop  
             }
 
-            if (input.equals("history")) {//just shows the logger (history)
+            else if (input.equals("history")) {//just shows the logger (history)
                 s = readLogFromFile();
                 System.out.println(s);
             }
 
 
-            if (input.equals("encrypt")&&pass>0) {
+            else if (input.equals("encrypt")&&pass>0) {
 
                 System.out.println("do you wish to use from the history? yes/no");
                 input = scanner.nextLine();
 
                 if(input.equals("yes")){
-                    readLogFromFile();
+                    readLogFromFile();//readfromfile is ran to update the arraylist that holds histories strings
                     if(choices.isEmpty()){
                     System.out.println("List is empty cant get from history");
                     }
@@ -81,7 +81,7 @@ public class driver {
 
                             System.out.println(choices+ " choose from the list");
                             input = scanner.nextLine();
-                            int num = Integer.parseInt(input);
+                            int num = Integer.parseInt(input);//convert string to integer
                             String usersChoice=choices.get(num);
                             encryptorwriter.println("encrypt"); // Send input to encryptor 
 
@@ -91,7 +91,6 @@ public class driver {
                             writer.println("encrypt"+" "+usersChoice); // Send input to logger 
                             
                             encryptorwriter.flush();
-
 
                         }
                 }
@@ -111,13 +110,13 @@ public class driver {
                 }
 
             }
-                else if(pass==0&&input.equals("encrypt"))
+                else if(pass==0&&input.equals("encrypt"))//checks if pass is not == to 0 if so then the password has not been set
                 System.out.println("set password first");
 
 
 
-            if (input.equals("password")) {
-                pass++;
+            else if (input.equals("password")) {
+                pass++;//here it is updated to know that password has been set
                 System.out.println("set paskey -");
 
                 encryptorwriter.println("password"); // Send input to encryptor 
@@ -129,7 +128,7 @@ public class driver {
 
 
 
-            if (input.equals("decrypt")&&pass>0) {
+           else if (input.equals("decrypt")&&pass>0) {//same type of functioonality as encrypt
 
                 System.out.println("do you wish to use from the history? yes/no");
                 input = scanner.nextLine();
@@ -179,11 +178,16 @@ public class driver {
             }
             else if(pass==0&&input.equals("decrypt"))
             System.out.println("set password first");
+            else 
+            System.out.println("eneter valid input");
+
+
+
    
         }//end of while loop
 
 
-        loggerProcess.destroy();
+        loggerProcess.destroy();            //ensures once quit is typed that the processes are destryed 
         encryptorProcess.destroy();
 
 
@@ -205,13 +209,13 @@ public class driver {
     
     public static String readLogFromFile() {
         String history = "";  
-        choices=new ArrayList<String>();
+        choices=new ArrayList<String>();//creates a new one everytime here so it doesnt pile up after every run
     
         try (BufferedReader reader = new BufferedReader(new FileReader("log.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {  
                 history += line + "\n";  
-                getchoice(line);
+                getchoice(line);//updates the arraylist full of history outputs not encluding the actions
 
             }
         } catch (IOException e) {
@@ -228,7 +232,7 @@ public class driver {
                 int goAhead=0;
                 for (int i =0;i<s.length();i++){
                     char ch = s.charAt(i);
-                    if (ch==']'){
+                    if (ch==']'){                       //makes sure i get everything after the action from the history logger
                     goAhead++;
                     continue;
                     }
@@ -238,7 +242,7 @@ public class driver {
                 }
             
                 choices.add(holder);
-                choices = new ArrayList<>(new LinkedHashSet<>(choices));
+                choices = new ArrayList<>(new LinkedHashSet<>(choices));//shouldnt let duplicates to exist but not sure this works. will leave it just incase
 
                 return choices;
 
@@ -283,7 +287,7 @@ public class driver {
 
     private static void readChildencryptor(Scanner encryptorScanner, PrintWriter writer) {
         while (encryptorScanner.hasNextLine()) {
-            encryptionOutput = encryptorScanner.nextLine(); 
+            encryptionOutput = encryptorScanner.nextLine(); //this ise where i send the data to the logger after every succesful encrypt or decrypt.
             writer.println(encryptionOutput);
         }
     }

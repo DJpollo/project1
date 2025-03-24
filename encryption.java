@@ -50,7 +50,7 @@ public class encryption {
 		
 	public static void encryptionProcc() {
 
-				String paskey=""; 
+				String paskey=""; //passkey is set here
 
 				Scanner scanner = new Scanner(System.in);
 				while (scanner.hasNextLine()) {
